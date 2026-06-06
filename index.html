@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1a4731">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>La Tiendita de Otilia</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #1a4731;
+  --verde-medio: #2d6a4f;
+  --verde-claro: #52b788;
+  --crema: #fdf6ec;
+  --crema-oscuro: #f0e6d0;
+  --naranja: #e07b3c;
+  --rojo: #c0392b;
+  --rojo-claro: #e74c3c;
+  --texto: #1a1a1a;
+  --gris: #6b7280;
+  --blanco: #ffffff;
+  --sombra: 0 4px 24px rgba(0,0,0,0.12);
+  --radio: 16px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  font-family:'DM Sans',sans-serif;
+  background:var(--crema);
+  color:var(--texto);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: linear-gradient(160deg, #1a4731 0%, #2d6a4f 100%);
+  padding: 16px 16px 14px;
+  position:sticky; top:0; z-index:100;
+  box-shadow:0 2px 20px rgba(0,0,0,0.25);
+}
+.header-row1 {
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  margin-bottom:10px;
+}
+.logo-block { display:flex; align-items:center; gap:10px; }
+.logo-uvas { font-size:30px; line-height:1; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+.logo-text-block {}
+.logo-nombre {
+  font-family:'Playfair Display',serif;
+  font-size:18px; font-weight:900;
+  color:var(--crema); letter-spacing:-0.3px; line-height:1.1;
+}
+.logo-nombre em { color:#c8e6a0; font-style:italic; }
+.logo-sub {
+  font-size:9px; color:rgba(253,246,236,0.55);
+  letter-spacing:2px; text-transform:uppercase; margin-top:2px;
+}
+.header-btns { display:flex; gap:6px; flex-shrink:0; }
+.btn-header {
+  border:none; border-radius:50px;
+  padding:7px 13px;
+  font-family:'DM Sans',sans-serif; font-weight:600; font-size:12px;
+  cursor:pointer; display:flex; align-items:center; gap:5px; transition:all 0.2s;
+  white-space:nowrap;
+}
+.btn-header:active { transform:scale(0.94); }
+.btn-hcliente { background:var(--verde-claro); color:var(--verde); }
+.btn-hproducto { background:#c8e6a0; color:#1a4731; }
+
+/* ===== RESUMEN ===== */
+.resumen-banner {
+  background:linear-gradient(135deg,var(--verde-medio),var(--verde));
+  margin:14px 14px 0;
+  border-radius:var(--radio);
+  padding:14px 18px;
+  display:flex; justify-content:space-between; align-items:center;
+  box-shadow:var(--sombra);
+}
+.resumen-label { font-size:10px; color:rgba(253,246,236,0.65); text-transform:uppercase; letter-spacing:1px; margin-bottom:3px; }
+.resumen-monto { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--crema); }
+.resumen-count { font-size:11px; color:#a8d8b0; margin-top:2px; }
+.resumen-icon { font-size:32px; opacity:0.35; }
+
+/* ===== BÚSQUEDA ===== */
+.search-wrap { padding:12px 14px 0; position:relative; }
+.search-icon { position:absolute; left:26px; top:50%; transform:translateY(-50%); color:var(--gris); font-size:15px; pointer-events:none; }
+.search-input {
+  width:100%; background:var(--blanco);
+  border:2px solid transparent; border-radius:12px;
+  padding:10px 14px 10px 38px;
+  font-family:'DM Sans',sans-serif; font-size:14px; color:var(--texto);
+  outline:none; transition:border-color 0.2s;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);
+}
+.search-input:focus { border-color:var(--verde-claro); }
+
+/* ===== LISTA CLIENTES ===== */
+.clientes-list { padding:10px 14px 100px; }
+.section-title {
+  font-size:10px; font-weight:600; color:var(--gris);
+  text-transform:uppercase; letter-spacing:1.5px; margin:6px 0 8px;
+}
+
+.cliente-card {
+  background:var(--blanco); border-radius:var(--radio);
+  margin-bottom:10px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  overflow:hidden; transition:transform 0.15s;
+}
+.cliente-card:active { transform:scale(0.99); }
+
+.cliente-header {
+  display:flex; align-items:center;
+  padding:13px 14px; cursor:pointer; gap:11px;
+}
+
+/* Avatar con animación intermitente */
+.cliente-avatar {
+  width:46px; height:46px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-size:17px; font-weight:700; color:white;
+  flex-shrink:0; position:relative;
+  transition:background 0.4s;
+}
+.cliente-avatar.con-deuda {
+  background: radial-gradient(circle at 40% 35%, #e74c3c, #922b21);
+  animation: faroRojo 1.1s ease-in-out infinite;
+  box-shadow: 0 0 0 0 rgba(231,76,60,0.7);
+}
+.cliente-avatar.sin-deuda {
+  background: radial-gradient(circle at 40% 35%, #52b788, #1a6b4a);
+  box-shadow: 0 0 8px rgba(82,183,136,0.4);
+}
+@keyframes faroRojo {
+  0%   { box-shadow: 0 0 0 0 rgba(231,76,60,0.75); background: radial-gradient(circle at 40% 35%, #e74c3c, #922b21); }
+  40%  { box-shadow: 0 0 0 10px rgba(231,76,60,0.0); background: radial-gradient(circle at 40% 35%, #ff7675, #c0392b); }
+  50%  { box-shadow: 0 0 0 0 rgba(231,76,60,0); background: radial-gradient(circle at 40% 35%, #c0392b, #7b241c); }
+  100% { box-shadow: 0 0 0 0 rgba(231,76,60,0.75); background: radial-gradient(circle at 40% 35%, #e74c3c, #922b21); }
+}
+
+.cliente-info { flex:1; min-width:0; }
+.cliente-nombre {
+  font-weight:600; font-size:15px; color:var(--texto);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.cliente-meta { font-size:11px; color:var(--gris); margin-top:2px; }
+
+.cliente-deuda-badge {
+  background:#fef3ea; border:1.5px solid var(--naranja);
+  border-radius:10px; padding:4px 10px;
+  font-weight:700; font-size:13px; color:var(--naranja);
+  white-space:nowrap; flex-shrink:0;
+}
+.cliente-deuda-badge.cero { background:#edf7f1; border-color:var(--verde-claro); color:var(--verde-medio); }
+
+.cliente-body { display:none; border-top:1px solid var(--crema-oscuro); }
+.cliente-body.open { display:block; }
+
+/* Acciones tarjeta */
+.acciones-row {
+  display:flex; gap:6px; padding:10px 12px; flex-wrap:wrap;
+}
+.btn-accion {
+  flex:1; min-width:56px;
+  border:none; border-radius:10px; padding:9px 6px;
+  font-family:'DM Sans',sans-serif; font-size:11px; font-weight:600;
+  cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px;
+  transition:all 0.15s;
+}
+.btn-accion:active { transform:scale(0.94); }
+.btn-accion .ico { font-size:17px; }
+.btn-cobrar  { background:#edf7f1; color:var(--verde-medio); }
+.btn-agregar { background:#fef3ea; color:var(--naranja); }
+.btn-whatsapp{ background:#e7f7ee; color:#128c7e; }
+.btn-editar  { background:#f0f4ff; color:#4361ee; }
+.btn-eliminar{ background:#fef2f2; color:var(--rojo); }
+
+/* Movimientos */
+.movimientos { padding:0 14px 12px; }
+.mov-title {
+  font-size:10px; font-weight:600; color:var(--gris);
+  text-transform:uppercase; letter-spacing:1px; margin-bottom:7px;
+}
+.mov-item {
+  display:flex; align-items:flex-start; gap:9px;
+  padding:7px 0; border-bottom:1px solid var(--crema-oscuro);
+}
+.mov-item:last-child { border-bottom:none; }
+.mov-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:var(--naranja); margin-top:5px; flex-shrink:0;
+}
+.mov-dot.pago { background:var(--verde-claro); }
+.mov-descripcion { flex:1; font-size:12px; color:var(--texto); }
+.mov-fecha { font-size:10px; color:var(--gris); margin-top:2px; }
+.mov-monto { font-weight:700; font-size:13px; color:var(--naranja); white-space:nowrap; }
+.mov-monto.pago { color:var(--verde-medio); }
+.mov-empty { font-size:13px; color:var(--gris); text-align:center; padding:10px 0; }
+
+/* ===== MODALES ===== */
+.overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.5); z-index:200;
+  backdrop-filter:blur(2px); align-items:flex-end;
+}
+.overlay.show { display:flex; }
+
+.modal {
+  background:var(--blanco); border-radius:24px 24px 0 0;
+  padding:20px 18px 38px; width:100%;
+  max-height:92vh; overflow-y:auto;
+  animation:slideUp 0.28s ease;
+}
+@keyframes slideUp {
+  from { transform:translateY(100%); } to { transform:translateY(0); }
+}
+.modal-handle {
+  width:38px; height:4px; background:#ddd;
+  border-radius:2px; margin:0 auto 18px;
+}
+.modal-title {
+  font-family:'Playfair Display',serif; font-size:19px; font-weight:700;
+  color:var(--verde); margin-bottom:18px;
+}
+
+.form-group { margin-bottom:14px; }
+.form-label {
+  font-size:11px; font-weight:600; color:var(--gris);
+  text-transform:uppercase; letter-spacing:0.8px; margin-bottom:5px; display:block;
+}
+.form-input {
+  width:100%; background:var(--crema); border:2px solid transparent;
+  border-radius:12px; padding:11px 13px;
+  font-family:'DM Sans',sans-serif; font-size:14px; color:var(--texto);
+  outline:none; transition:border-color 0.2s;
+}
+.form-input:focus { border-color:var(--verde-claro); background:white; }
+.form-select {
+  width:100%; background:var(--crema); border:2px solid transparent;
+  border-radius:12px; padding:11px 13px;
+  font-family:'DM Sans',sans-serif; font-size:14px; color:var(--texto);
+  outline:none; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 13px center;
+  cursor:pointer;
+}
+.form-select:focus { border-color:var(--verde-claro); background-color:white; }
+.form-row { display:flex; gap:10px; }
+.form-row .form-group { flex:1; }
+
+.btn-primary {
+  width:100%; background:var(--verde); color:var(--crema);
+  border:none; border-radius:14px; padding:15px;
+  font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600;
+  cursor:pointer; transition:all 0.2s; margin-top:6px;
+}
+.btn-primary:active { transform:scale(0.98); background:var(--verde-medio); }
+.btn-secondary {
+  width:100%; background:transparent; color:var(--gris);
+  border:2px solid var(--crema-oscuro); border-radius:14px; padding:13px;
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:600;
+  cursor:pointer; margin-top:8px;
+}
+
+/* ===== MODAL CATÁLOGO PRODUCTOS ===== */
+.cat-section { margin-bottom:14px; }
+.cat-section-title {
+  font-size:11px; font-weight:700; color:var(--verde);
+  text-transform:uppercase; letter-spacing:1px;
+  padding:6px 0 4px; border-bottom:2px solid var(--crema-oscuro);
+  margin-bottom:8px; display:flex; align-items:center; gap:6px;
+}
+.prod-item {
+  display:flex; align-items:center; gap:10px;
+  padding:8px 10px; background:var(--crema);
+  border-radius:10px; margin-bottom:6px;
+}
+.prod-item-info { flex:1; min-width:0; }
+.prod-item-nombre { font-size:13px; font-weight:600; }
+.prod-item-precio { font-size:12px; color:var(--naranja); font-weight:700; }
+.prod-item-cat { font-size:10px; color:var(--gris); }
+.prod-item-btns { display:flex; gap:6px; flex-shrink:0; }
+.btn-mini {
+  border:none; border-radius:8px; padding:6px 10px;
+  font-size:11px; font-weight:600; cursor:pointer;
+  font-family:'DM Sans',sans-serif; transition:all 0.15s;
+}
+.btn-mini:active { transform:scale(0.93); }
+.btn-mini-edit { background:#f0f4ff; color:#4361ee; }
+.btn-mini-del { background:#fef2f2; color:var(--rojo); }
+
+/* Selector de producto en crédito */
+.selector-cat-tabs {
+  display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;
+}
+.tab-cat {
+  border:2px solid var(--crema-oscuro); border-radius:50px;
+  padding:5px 12px; font-size:12px; font-weight:600;
+  cursor:pointer; background:white; color:var(--gris);
+  transition:all 0.15s; font-family:'DM Sans',sans-serif;
+}
+.tab-cat.activo { border-color:var(--verde-claro); background:var(--verde-claro); color:var(--verde); }
+
+.prod-selector-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;
+}
+.prod-selector-btn {
+  border:2px solid var(--crema-oscuro); border-radius:12px;
+  padding:10px 8px; text-align:center;
+  cursor:pointer; background:white; transition:all 0.15s;
+  font-family:'DM Sans',sans-serif;
+}
+.prod-selector-btn:active { transform:scale(0.95); }
+.prod-selector-btn.seleccionado { border-color:var(--naranja); background:#fef3ea; }
+.prod-sel-nombre { font-size:13px; font-weight:600; color:var(--texto); }
+.prod-sel-precio { font-size:12px; color:var(--naranja); font-weight:700; margin-top:2px; }
+.prod-sel-cat { font-size:10px; color:var(--gris); }
+
+/* Toast */
+.toast {
+  position:fixed; bottom:24px; left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--verde); color:white;
+  padding:11px 20px; border-radius:50px;
+  font-size:13px; font-weight:500; z-index:999;
+  transition:transform 0.3s ease; white-space:nowrap;
+  box-shadow:0 4px 20px rgba(0,0,0,0.25);
+}
+.toast.show { transform:translateX(-50%) translateY(0); }
+
+/* Empty */
+.empty-state { text-align:center; padding:50px 20px; }
+.empty-icon { font-size:48px; margin-bottom:10px; }
+.empty-title { font-family:'Playfair Display',serif; font-size:18px; color:var(--verde); margin-bottom:6px; }
+.empty-text { font-size:13px; color:var(--gris); line-height:1.6; }
+
+/* Confirm */
+.confirm-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.5); z-index:300;
+  align-items:center; justify-content:center; padding:20px;
+}
+.confirm-overlay.show { display:flex; }
+.confirm-box {
+  background:white; border-radius:20px; padding:26px 22px;
+  width:100%; max-width:300px; text-align:center;
+  animation:popIn 0.22s ease;
+}
+@keyframes popIn {
+  from { transform:scale(0.85); opacity:0; }
+  to   { transform:scale(1); opacity:1; }
+}
+.confirm-icon { font-size:38px; margin-bottom:10px; }
+.confirm-title { font-family:'Playfair Display',serif; font-size:17px; color:var(--texto); margin-bottom:6px; }
+.confirm-text { font-size:13px; color:var(--gris); margin-bottom:22px; line-height:1.5; }
+.confirm-btns { display:flex; gap:8px; }
+.confirm-btns button { flex:1; padding:11px; border:none; border-radius:12px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; cursor:pointer; }
+.confirm-cancel { background:var(--crema-oscuro); color:var(--gris); }
+.confirm-ok { background:var(--rojo); color:white; }
+
+.saldo-chip {
+  display:inline-flex; align-items:center; gap:5px;
+  background:#fef3ea; border-radius:50px; padding:4px 12px 4px 8px;
+  font-size:12px; color:var(--naranja); font-weight:600; margin-bottom:6px;
+}
+.num-movs {
+  font-size:10px; color:var(--gris); background:var(--crema-oscuro);
+  border-radius:50px; padding:2px 7px; margin-left:4px;
+}
+.ver-mas {
+  text-align:center; padding:7px 0 3px;
+  font-size:12px; color:var(--verde-claro); font-weight:600; cursor:pointer;
+}
+
+/* Sin productos cargados */
+.sin-productos {
+  text-align:center; padding:24px 16px;
+  font-size:13px; color:var(--gris); line-height:1.7;
+}
+.sin-productos strong { color:var(--verde); }
+
+/* Subtotal box */
+.subtotal-box {
+  background:var(--crema); border-radius:12px; padding:11px 13px;
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:4px;
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="header-row1">
+    <div class="logo-block">
+      <div class="logo-uvas">🍇</div>
+      <div class="logo-text-block">
+        <div class="logo-nombre">La Tiendita de <em>Otilia</em></div>
+        <div class="logo-sub">Control de Créditos</div>
+      </div>
+    </div>
+    <div class="header-btns">
+      <button class="btn-header btn-hcliente" onclick="abrirModalCliente()">＋ Cliente</button>
+      <button class="btn-header btn-hproducto" onclick="abrirModalCatalogo()">＋ Productos</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== RESUMEN ===== -->
+<div class="resumen-banner">
+  <div>
+    <div class="resumen-label">Total pendiente</div>
+    <div class="resumen-monto" id="totalGeneral">S/ 0.00</div>
+    <div class="resumen-count" id="totalClientes">0 clientes con crédito</div>
+  </div>
+  <div class="resumen-icon">🏪</div>
+</div>
+
+<!-- ===== BÚSQUEDA ===== -->
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input class="search-input" type="text" placeholder="Buscar cliente..." id="searchInput" oninput="filtrarClientes()">
+</div>
+
+<!-- ===== LISTA ===== -->
+<div class="clientes-list" id="clientesList">
+  <div class="empty-state" id="emptyState">
+    <div class="empty-icon">🛒</div>
+    <div class="empty-title">Sin clientes aún</div>
+    <div class="empty-text">Toca <strong>+ Cliente</strong> para registrar<br>tu primer cliente con crédito.</div>
+  </div>
+</div>
+
+<!-- ===== MODAL NUEVO/EDITAR CLIENTE ===== -->
+<div class="overlay" id="overlayCliente" onclick="cerrarOverlayCliente(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modalClienteTitulo">Nuevo Cliente</div>
+    <div class="form-group">
+      <label class="form-label">Nombre completo</label>
+      <input class="form-input" id="inputNombre" placeholder="Ej: Rosa Pérez" type="text">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Teléfono WhatsApp</label>
+      <input class="form-input" id="inputTelefono" placeholder="Ej: 999888777" type="tel">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Límite de crédito S/ (opcional)</label>
+      <input class="form-input" id="inputLimite" placeholder="Ej: 50.00 (0 = sin límite)" type="number" min="0" step="1">
+    </div>
+    <button class="btn-primary" onclick="guardarCliente()">Guardar Cliente</button>
+    <button class="btn-secondary" onclick="cerrarModalCliente()">Cancelar</button>
+  </div>
+</div>
+
+<!-- ===== MODAL CATÁLOGO DE PRODUCTOS ===== -->
+<div class="overlay" id="overlayCatalogo" onclick="cerrarOverlayCatalogo(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Catálogo de Productos</div>
+
+    <!-- Formulario agregar/editar producto -->
+    <div id="formProductoCatalogo" style="background:var(--crema);border-radius:14px;padding:14px;margin-bottom:16px">
+      <div style="font-size:11px;font-weight:700;color:var(--verde);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px" id="formProdTitulo">Agregar Producto</div>
+      <div class="form-group">
+        <label class="form-label">Nombre del producto</label>
+        <input class="form-input" id="cpNombre" placeholder="Ej: Arroz Costeño 1kg" type="text" style="background:white">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Categoría</label>
+          <select class="form-select" id="cpCategoria" style="background:white">
+            <option value="">— Seleccionar —</option>
+            <option value="🌾 Abarrotes">🌾 Abarrotes</option>
+            <option value="🥩 Carnes">🥩 Carnes</option>
+            <option value="🥛 Lácteos">🥛 Lácteos</option>
+            <option value="🥦 Verduras">🥦 Verduras</option>
+            <option value="🍎 Frutas">🍎 Frutas</option>
+            <option value="🧴 Limpieza">🧴 Limpieza</option>
+            <option value="🥤 Bebidas">🥤 Bebidas</option>
+            <option value="🍬 Dulces">🍬 Dulces</option>
+            <option value="🍞 Panadería">🍞 Panadería</option>
+            <option value="💊 Medicamentos">💊 Medicamentos</option>
+            <option value="📦 Otros">📦 Otros</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Precio (S/)</label>
+          <input class="form-input" id="cpPrecio" placeholder="0.00" type="number" min="0" step="0.10" style="background:white">
+        </div>
+      </div>
+      <input type="hidden" id="cpEditId">
+      <button class="btn-primary" onclick="guardarProductoCatalogo()" style="margin-top:4px" id="btnGuardarProd">✅ Agregar al Catálogo</button>
+      <button class="btn-secondary" id="btnCancelarEditProd" onclick="cancelarEdicionProd()" style="display:none">Cancelar edición</button>
+    </div>
+
+    <!-- Lista de productos existentes -->
+    <div id="listaCatalogo"></div>
+    <button class="btn-secondary" onclick="cerrarModalCatalogo()">Cerrar</button>
+  </div>
+</div>
+
+<!-- ===== MODAL AGREGAR AL CRÉDITO (con selector de productos) ===== -->
+<div class="overlay" id="overlayCredito" onclick="cerrarOverlayCredito(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Agregar al Crédito</div>
+    <div style="margin-bottom:12px">
+      <div class="saldo-chip"><span>👤</span><span id="creditoClienteNombre">—</span></div>
+      <div style="font-size:12px;color:var(--gris)">Deuda actual: <strong style="color:var(--naranja)" id="creditoDeudaActual">S/ 0.00</strong></div>
+    </div>
+
+    <!-- Tabs de categorías -->
+    <div id="selectorCategoriasWrap">
+      <div style="font-size:11px;font-weight:700;color:var(--gris);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Categoría</div>
+      <div class="selector-cat-tabs" id="tabsCategorias"></div>
+      <!-- Grid de productos de la categoría -->
+      <div class="prod-selector-grid" id="gridProductosCat"></div>
+    </div>
+
+    <!-- Modo manual si no hay catálogo -->
+    <div id="modoManualWrap" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Producto / Descripción</label>
+        <input class="form-input" id="inputProductoManual" placeholder="Ej: Azúcar 1kg" type="text">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Precio (S/)</label>
+          <input class="form-input" id="inputPrecioManual" placeholder="0.00" type="number" min="0" step="0.10">
+        </div>
+      </div>
+    </div>
+
+    <!-- Seleccionado preview -->
+    <div id="productoSeleccionadoPreview" style="display:none;background:#fef3ea;border-radius:12px;padding:10px 13px;margin-bottom:12px">
+      <div style="font-size:12px;color:var(--gris)">Producto seleccionado</div>
+      <div style="font-size:14px;font-weight:700;color:var(--texto)" id="prevNombreProd">—</div>
+      <div style="font-size:13px;color:var(--naranja);font-weight:600" id="prevPrecioProd">S/ 0.00 c/u</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Cantidad</label>
+      <input class="form-input" id="inputCantidadCredito" placeholder="1" type="number" min="0.1" step="0.1" oninput="actualizarSubtotalCredito()">
+    </div>
+    <div class="subtotal-box">
+      <span style="font-size:13px;color:var(--gris)">Subtotal:</span>
+      <span style="font-size:18px;font-weight:700;color:var(--naranja)" id="subtotalCreditoPreview">S/ 0.00</span>
+    </div>
+    <button class="btn-primary" onclick="guardarCredito()">✅ Añadir al Crédito</button>
+    <button class="btn-secondary" onclick="cerrarModalCredito()">Cancelar</button>
+  </div>
+</div>
+
+<!-- ===== MODAL PAGO ===== -->
+<div class="overlay" id="overlayPago" onclick="cerrarOverlayPago(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Registrar Pago</div>
+    <div style="margin-bottom:12px">
+      <div class="saldo-chip"><span>👤</span><span id="pagoClienteNombre">—</span></div>
+      <div style="font-size:12px;color:var(--gris)">Deuda actual: <strong style="color:var(--naranja)" id="pagoDeudaActual">S/ 0.00</strong></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Monto pagado (S/)</label>
+      <input class="form-input" id="inputPago" placeholder="0.00" type="number" min="0" step="0.10">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nota (opcional)</label>
+      <input class="form-input" id="inputPagoNota" placeholder="Ej: Abono semanal" type="text">
+    </div>
+    <button class="btn-primary" onclick="guardarPago()" style="background:var(--verde-medio)">💰 Registrar Pago</button>
+    <button class="btn-secondary" onclick="cerrarModalPago()">Cancelar</button>
+  </div>
+</div>
+
+<!-- ===== CONFIRMAR ELIMINAR ===== -->
+<div class="confirm-overlay" id="confirmEliminar">
+  <div class="confirm-box">
+    <div class="confirm-icon">🗑️</div>
+    <div class="confirm-title">¿Eliminar cliente?</div>
+    <div class="confirm-text">Se borrará el cliente y todo su historial. Esta acción no se puede deshacer.</div>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" onclick="cerrarConfirm()">Cancelar</button>
+      <button class="confirm-ok" onclick="confirmarEliminar()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+//  ESTADO GLOBAL
+// ============================================================
+let clientes  = JSON.parse(localStorage.getItem('otilia_clientes')  || '[]');
+let catalogo  = JSON.parse(localStorage.getItem('otilia_catalogo')  || '[]');
+
+let clienteEditandoId = null;
+let clienteCreditoId  = null;
+let clientePagoId     = null;
+let clienteEliminarId = null;
+let prodEditandoId    = null;
+let prodSeleccionado  = null; // { id, nombre, precio, categoria }
+let catActivaSelector = null;
+
+// ============================================================
+//  STORAGE
+// ============================================================
+function save() {
+  localStorage.setItem('otilia_clientes', JSON.stringify(clientes));
+  localStorage.setItem('otilia_catalogo', JSON.stringify(catalogo));
+}
+
+// ============================================================
+//  UTILIDADES
+// ============================================================
+function S(n)  { return 'S/ ' + Number(n).toFixed(2); }
+function now() {
+  const d = new Date();
+  return {
+    fecha: d.toLocaleDateString('es-PE',{day:'2-digit',month:'2-digit',year:'numeric'}),
+    hora:  d.toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'}),
+    ts:    d.toISOString()
+  };
+}
+function iniciales(n) { return n.split(' ').slice(0,2).map(p=>p[0]).join('').toUpperCase(); }
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+function deuda(c) {
+  let d = 0;
+  c.movimientos.forEach(m => {
+    if (m.tipo==='compra') d += m.total;
+    else if (m.tipo==='pago') d -= m.monto;
+  });
+  return Math.max(0, d);
+}
+
+// ============================================================
+//  RENDER PRINCIPAL
+// ============================================================
+function render() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const container = document.getElementById('clientesList');
+  container.querySelectorAll('.cliente-card,.no-result').forEach(e=>e.remove());
+
+  document.getElementById('emptyState').style.display = clientes.length===0 ? 'block':'none';
+
+  const filtrados = clientes
+    .filter(c => c.nombre.toLowerCase().includes(q))
+    .sort((a,b) => deuda(b) - deuda(a));
+
+  if (filtrados.length===0 && q) {
+    const d = document.createElement('div');
+    d.className='no-result';
+    d.style.cssText='text-align:center;padding:36px;color:var(--gris);font-size:13px';
+    d.textContent = 'No se encontró "'+q+'"';
+    container.appendChild(d); return;
+  }
+
+  filtrados.forEach(c => {
+    const deu = deuda(c);
+    const conDeuda = deu > 0;
+    const ultimos3 = [...c.movimientos].reverse().slice(0,3);
+    const numMovs  = c.movimientos.length;
+    const limiteWarning = c.limite > 0 && deu >= c.limite * 0.9;
+
+    const card = document.createElement('div');
+    card.className = 'cliente-card';
+    card.id = 'card-'+c.id;
+
+    card.innerHTML = `
+      <div class="cliente-header" onclick="toggleCard('${c.id}')">
+        <div class="cliente-avatar ${conDeuda?'con-deuda':'sin-deuda'}">${iniciales(c.nombre)}</div>
+        <div class="cliente-info">
+          <div class="cliente-nombre">${c.nombre}</div>
+          <div class="cliente-meta">${c.telefono?'📱 '+c.telefono:'Sin teléfono'} · ${numMovs} mov.</div>
+          ${limiteWarning?`<div style="font-size:10px;color:var(--rojo);font-weight:600">⚠️ Cerca del límite S/ ${Number(c.limite).toFixed(0)}</div>`:''}
+        </div>
+        <div class="cliente-deuda-badge ${conDeuda?'':'cero'}">${S(deu)}</div>
+      </div>
+      <div class="cliente-body" id="body-${c.id}">
+        <div class="acciones-row">
+          <button class="btn-accion btn-agregar"  onclick="abrirModalCredito('${c.id}')"><span class="ico">🛍️</span>Agregar</button>
+          <button class="btn-accion btn-cobrar"   onclick="abrirModalPago('${c.id}')"><span class="ico">💰</span>Cobrar</button>
+          <button class="btn-accion btn-whatsapp" onclick="enviarWhatsApp('${c.id}')"><span class="ico">💬</span>WhatsApp</button>
+          <button class="btn-accion btn-editar"   onclick="editarCliente('${c.id}')"><span class="ico">✏️</span>Editar</button>
+          <button class="btn-accion btn-eliminar" onclick="pedirEliminar('${c.id}')"><span class="ico">🗑️</span>Borrar</button>
+        </div>
+        <div class="movimientos">
+          <div class="mov-title">Últimos movimientos <span class="num-movs">${numMovs}</span></div>
+          ${numMovs===0
+            ? '<div class="mov-empty">Sin movimientos aún</div>'
+            : ultimos3.map(m=>`
+              <div class="mov-item">
+                <div class="mov-dot ${m.tipo==='pago'?'pago':''}"></div>
+                <div style="flex:1">
+                  <div class="mov-descripcion">${m.tipo==='compra'
+                    ? m.cantidad+' × '+m.producto
+                    : 'Pago'+(m.nota?': '+m.nota:'')}</div>
+                  <div class="mov-fecha">📅 ${m.fecha} · ${m.hora}</div>
+                </div>
+                <div class="mov-monto ${m.tipo==='pago'?'pago':''}">${m.tipo==='compra'?'+':'-'}${S(m.tipo==='compra'?m.total:m.monto)}</div>
+              </div>`).join('')
+          }
+          ${numMovs>3?`<div class="ver-mas" onclick="verTodo('${c.id}')">Ver historial completo (${numMovs})</div>`:''}
+        </div>
+      </div>`;
+    container.appendChild(card);
+  });
+
+  // Resumen
+  let total=0, con=0;
+  clientes.forEach(c=>{ const d=deuda(c); total+=d; if(d>0) con++; });
+  document.getElementById('totalGeneral').textContent = S(total);
+  document.getElementById('totalClientes').textContent = con+(con===1?' cliente con crédito':' clientes con crédito');
+}
+
+function toggleCard(id) {
+  document.getElementById('body-'+id).classList.toggle('open');
+}
+function filtrarClientes() { render(); }
+
+// ============================================================
+//  MODAL CLIENTE
+// ============================================================
+function abrirModalCliente() {
+  clienteEditandoId = null;
+  document.getElementById('modalClienteTitulo').textContent = 'Nuevo Cliente';
+  ['inputNombre','inputTelefono','inputLimite'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('overlayCliente').classList.add('show');
+}
+function editarCliente(id) {
+  const c = clientes.find(x=>x.id===id);
+  clienteEditandoId = id;
+  document.getElementById('modalClienteTitulo').textContent = 'Editar Cliente';
+  document.getElementById('inputNombre').value    = c.nombre;
+  document.getElementById('inputTelefono').value  = c.telefono||'';
+  document.getElementById('inputLimite').value    = c.limite||'';
+  document.getElementById('overlayCliente').classList.add('show');
+}
+function cerrarModalCliente()     { document.getElementById('overlayCliente').classList.remove('show'); }
+function cerrarOverlayCliente(e)  { if(e.target.id==='overlayCliente') cerrarModalCliente(); }
+
+function guardarCliente() {
+  const nombre    = document.getElementById('inputNombre').value.trim();
+  const telefono  = document.getElementById('inputTelefono').value.trim();
+  const limite    = parseFloat(document.getElementById('inputLimite').value)||0;
+  if (!nombre) { toast('⚠️ Ingresa el nombre'); return; }
+  if (clienteEditandoId) {
+    const c = clientes.find(x=>x.id===clienteEditandoId);
+    Object.assign(c,{nombre,telefono,limite});
+    toast('✅ Cliente actualizado');
+  } else {
+    clientes.push({ id:Date.now().toString(), nombre, telefono, limite, movimientos:[], creadoEn:now().ts });
+    toast('✅ Cliente agregado');
+  }
+  save(); cerrarModalCliente(); render();
+}
+
+// ============================================================
+//  MODAL CATÁLOGO PRODUCTOS
+// ============================================================
+function abrirModalCatalogo() {
+  cancelarEdicionProd();
+  renderCatalogo();
+  document.getElementById('overlayCatalogo').classList.add('show');
+}
+function cerrarModalCatalogo()      { document.getElementById('overlayCatalogo').classList.remove('show'); }
+function cerrarOverlayCatalogo(e)   { if(e.target.id==='overlayCatalogo') cerrarModalCatalogo(); }
+
+function renderCatalogo() {
+  const wrap = document.getElementById('listaCatalogo');
+  if (catalogo.length===0) {
+    wrap.innerHTML = '<div style="text-align:center;padding:16px 0;font-size:13px;color:var(--gris)">Aún no hay productos. Agrega el primero arriba ☝️</div>';
+    return;
+  }
+  // Agrupar por categoría
+  const cats = {};
+  catalogo.forEach(p => {
+    const cat = p.categoria||'📦 Otros';
+    if (!cats[cat]) cats[cat]=[];
+    cats[cat].push(p);
+  });
+  let html = '';
+  Object.keys(cats).sort().forEach(cat => {
+    html += `<div class="cat-section"><div class="cat-section-title">${cat}</div>`;
+    cats[cat].forEach(p => {
+      html += `
+        <div class="prod-item">
+          <div class="prod-item-info">
+            <div class="prod-item-nombre">${p.nombre}</div>
+            <div class="prod-item-precio">${S(p.precio)}</div>
+          </div>
+          <div class="prod-item-btns">
+            <button class="btn-mini btn-mini-edit" onclick="editarProdCatalogo('${p.id}')">✏️ Editar</button>
+            <button class="btn-mini btn-mini-del"  onclick="eliminarProdCatalogo('${p.id}')">🗑️</button>
+          </div>
+        </div>`;
+    });
+    html += '</div>';
+  });
+  wrap.innerHTML = html;
+}
+
+function guardarProductoCatalogo() {
+  const nombre    = document.getElementById('cpNombre').value.trim();
+  const categoria = document.getElementById('cpCategoria').value;
+  const precio    = parseFloat(document.getElementById('cpPrecio').value);
+  if (!nombre)       { toast('⚠️ Escribe el nombre'); return; }
+  if (!categoria)    { toast('⚠️ Elige una categoría'); return; }
+  if (!precio||precio<=0) { toast('⚠️ Ingresa el precio'); return; }
+
+  const editId = document.getElementById('cpEditId').value;
+  if (editId) {
+    const p = catalogo.find(x=>x.id===editId);
+    Object.assign(p,{nombre,categoria,precio});
+    toast('✅ Producto actualizado');
+    cancelarEdicionProd();
+  } else {
+    catalogo.push({ id:Date.now().toString(), nombre, categoria, precio });
+    toast('✅ Producto agregado al catálogo');
+  }
+  document.getElementById('cpNombre').value  = '';
+  document.getElementById('cpPrecio').value  = '';
+  document.getElementById('cpCategoria').value = '';
+  save(); renderCatalogo();
+}
+
+function editarProdCatalogo(id) {
+  const p = catalogo.find(x=>x.id===id);
+  prodEditandoId = id;
+  document.getElementById('cpNombre').value    = p.nombre;
+  document.getElementById('cpPrecio').value    = p.precio;
+  document.getElementById('cpCategoria').value = p.categoria;
+  document.getElementById('cpEditId').value    = id;
+  document.getElementById('formProdTitulo').textContent = '✏️ Editando producto';
+  document.getElementById('btnGuardarProd').textContent = '💾 Guardar cambios';
+  document.getElementById('btnCancelarEditProd').style.display = 'block';
+  document.getElementById('cpNombre').focus();
+}
+
+function cancelarEdicionProd() {
+  prodEditandoId = null;
+  document.getElementById('cpNombre').value  = '';
+  document.getElementById('cpPrecio').value  = '';
+  document.getElementById('cpCategoria').value = '';
+  document.getElementById('cpEditId').value  = '';
+  document.getElementById('formProdTitulo').textContent = 'Agregar Producto';
+  document.getElementById('btnGuardarProd').textContent = '✅ Agregar al Catálogo';
+  document.getElementById('btnCancelarEditProd').style.display = 'none';
+}
+
+function eliminarProdCatalogo(id) {
+  catalogo = catalogo.filter(x=>x.id!==id);
+  save(); renderCatalogo(); toast('🗑️ Producto eliminado');
+}
+
+// ============================================================
+//  MODAL CRÉDITO (selector de productos del catálogo)
+// ============================================================
+function abrirModalCredito(id) {
+  clienteCreditoId = id;
+  prodSeleccionado = null;
+  const c = clientes.find(x=>x.id===id);
+  document.getElementById('creditoClienteNombre').textContent = c.nombre;
+  document.getElementById('creditoDeudaActual').textContent   = S(deuda(c));
+  document.getElementById('inputCantidadCredito').value = '';
+  document.getElementById('subtotalCreditoPreview').textContent = 'S/ 0.00';
+  document.getElementById('productoSeleccionadoPreview').style.display = 'none';
+
+  const hayCatalogo = catalogo.length > 0;
+  document.getElementById('selectorCategoriasWrap').style.display = hayCatalogo ? 'block':'none';
+  document.getElementById('modoManualWrap').style.display = hayCatalogo ? 'none':'block';
+
+  if (hayCatalogo) {
+    renderSelectorCategorias();
+  } else {
+    document.getElementById('inputProductoManual').value = '';
+    document.getElementById('inputPrecioManual').value   = '';
+  }
+  document.getElementById('overlayCredito').classList.add('show');
+}
+
+function renderSelectorCategorias() {
+  const cats = [...new Set(catalogo.map(p=>p.categoria||'📦 Otros'))].sort();
+  catActivaSelector = catActivaSelector && cats.includes(catActivaSelector) ? catActivaSelector : cats[0];
+
+  const tabsWrap = document.getElementById('tabsCategorias');
+  tabsWrap.innerHTML = cats.map(cat=>`
+    <button class="tab-cat ${cat===catActivaSelector?'activo':''}" onclick="seleccionarCatTab('${cat}')">${cat}</button>
+  `).join('');
+
+  renderGridProductosCat();
+}
+
+function seleccionarCatTab(cat) {
+  catActivaSelector = cat;
+  renderSelectorCategorias();
+}
+
+function renderGridProductosCat() {
+  const prods = catalogo.filter(p=>(p.categoria||'📦 Otros')===catActivaSelector);
+  const grid  = document.getElementById('gridProductosCat');
+  if (prods.length===0) {
+    grid.innerHTML = '<div style="grid-column:span 2;text-align:center;padding:16px;font-size:13px;color:var(--gris)">Sin productos en esta categoría</div>';
+    return;
+  }
+  grid.innerHTML = prods.map(p=>`
+    <div class="prod-selector-btn ${prodSeleccionado&&prodSeleccionado.id===p.id?'seleccionado':''}" onclick="elegirProducto('${p.id}')">
+      <div class="prod-sel-nombre">${p.nombre}</div>
+      <div class="prod-sel-precio">${S(p.precio)}</div>
+    </div>
+  `).join('');
+}
+
+function elegirProducto(id) {
+  const p = catalogo.find(x=>x.id===id);
+  prodSeleccionado = p;
+  renderGridProductosCat();
+  document.getElementById('productoSeleccionadoPreview').style.display = 'block';
+  document.getElementById('prevNombreProd').textContent = p.nombre;
+  document.getElementById('prevPrecioProd').textContent = S(p.precio)+' c/u';
+  actualizarSubtotalCredito();
+  document.getElementById('inputCantidadCredito').focus();
+}
+
+function actualizarSubtotalCredito() {
+  const cant  = parseFloat(document.getElementById('inputCantidadCredito').value)||0;
+  const precio = prodSeleccionado
+    ? prodSeleccionado.precio
+    : (parseFloat(document.getElementById('inputPrecioManual')?.value)||0);
+  document.getElementById('subtotalCreditoPreview').textContent = S(cant*precio);
+}
+
+function cerrarModalCredito()     { document.getElementById('overlayCredito').classList.remove('show'); }
+function cerrarOverlayCredito(e)  { if(e.target.id==='overlayCredito') cerrarModalCredito(); }
+
+function guardarCredito() {
+  const cant = parseFloat(document.getElementById('inputCantidadCredito').value);
+  if (!cant||cant<=0) { toast('⚠️ Ingresa la cantidad'); return; }
+
+  let nombreProd, precioProd;
+
+  if (catalogo.length > 0) {
+    if (!prodSeleccionado) { toast('⚠️ Selecciona un producto'); return; }
+    nombreProd = prodSeleccionado.nombre;
+    precioProd = prodSeleccionado.precio;
+  } else {
+    nombreProd = document.getElementById('inputProductoManual').value.trim();
+    precioProd = parseFloat(document.getElementById('inputPrecioManual').value)||0;
+    if (!nombreProd) { toast('⚠️ Escribe el producto'); return; }
+    if (precioProd<=0) { toast('⚠️ Ingresa el precio'); return; }
+  }
+
+  const c = clientes.find(x=>x.id===clienteCreditoId);
+
+  // Verificar límite
+  if (c.limite > 0) {
+    const deuActual = deuda(c);
+    const nuevaDeuda = deuActual + (cant * precioProd);
+    if (nuevaDeuda > c.limite) {
+      toast(`⛔ Supera el límite de S/ ${Number(c.limite).toFixed(2)}`); return;
+    }
+  }
+
+  const {fecha,hora,ts} = now();
+  c.movimientos.push({
+    id:Date.now().toString(), tipo:'compra',
+    producto:nombreProd, cantidad:cant,
+    precioUnit:precioProd, total:cant*precioProd,
+    fecha, hora, ts
+  });
+  save();
+  cerrarModalCredito();
+  toast('🛍️ Agregado al crédito');
+  prodSeleccionado = null;
+  render();
+  setTimeout(()=>{ const b=document.getElementById('body-'+clienteCreditoId); if(b)b.classList.add('open'); },120);
+}
+
+// ============================================================
+//  MODAL PAGO
+// ============================================================
+function abrirModalPago(id) {
+  clientePagoId = id;
+  const c = clientes.find(x=>x.id===id);
+  document.getElementById('pagoClienteNombre').textContent = c.nombre;
+  document.getElementById('pagoDeudaActual').textContent   = S(deuda(c));
+  document.getElementById('inputPago').value     = '';
+  document.getElementById('inputPagoNota').value = '';
+  document.getElementById('overlayPago').classList.add('show');
+}
+function cerrarModalPago()     { document.getElementById('overlayPago').classList.remove('show'); }
+function cerrarOverlayPago(e)  { if(e.target.id==='overlayPago') cerrarModalPago(); }
+
+function guardarPago() {
+  const monto = parseFloat(document.getElementById('inputPago').value);
+  const nota  = document.getElementById('inputPagoNota').value.trim();
+  if (!monto||monto<=0) { toast('⚠️ Ingresa el monto'); return; }
+  const c = clientes.find(x=>x.id===clientePagoId);
+  const {fecha,hora,ts} = now();
+  c.movimientos.push({ id:Date.now().toString(), tipo:'pago', monto, nota, fecha, hora, ts });
+  save(); cerrarModalPago(); toast('💰 Pago registrado'); render();
+  setTimeout(()=>{ const b=document.getElementById('body-'+clientePagoId); if(b)b.classList.add('open'); },120);
+}
+
+// ============================================================
+//  TICKET PNG — GENERADOR CON CANVAS
+// ============================================================
+function enviarWhatsApp(id) {
+  generarTicket(id);
+}
+
+function generarTicket(id) {
+  const c   = clientes.find(x => x.id === id);
+  const deu = deuda(c);
+  const hoy = new Date().toLocaleDateString('es-PE', {day:'2-digit', month:'long', year:'numeric'});
+
+  // ── dimensiones y escala para nitidez en móvil
+  const SCALE = 2;
+  const W     = 360;
+  const PAD   = 28;
+  const INNER = W - PAD * 2;
+
+  // ── calcular altura necesaria primero
+  const compras = c.movimientos.filter(m => m.tipo === 'compra');
+  const pagos   = c.movimientos.filter(m => m.tipo === 'pago');
+  const filas   = c.movimientos.length;
+  // header(130) + info-cliente(70) + separador(20) + título-detalle(30) + filas + separador(20) + total(60) + pie(60)
+  const alturaFilas = filas * 48 + (filas === 0 ? 30 : 0);
+  const H = 140 + 80 + 24 + 32 + alturaFilas + 24 + 70 + 70;
+
+  const canvas  = document.createElement('canvas');
+  canvas.width  = W * SCALE;
+  canvas.height = H * SCALE;
+  const ctx     = canvas.getContext('2d');
+  ctx.scale(SCALE, SCALE);
+
+  // ── helpers
+  function roundRect(x, y, w, h, r, fill) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+  }
+
+  function dashedLine(y) {
+    ctx.save();
+    ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = '#d1c7b8';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(PAD, y); ctx.lineTo(W - PAD, y); ctx.stroke();
+    ctx.restore();
+  }
+
+  function txt(text, x, y, font, color, align='left') {
+    ctx.font = font;
+    ctx.fillStyle = color;
+    ctx.textAlign = align;
+    ctx.fillText(text, x, y);
+  }
+
+  function wrapText(text, x, y, maxW, lineH, font, color) {
+    ctx.font = font;
+    ctx.fillStyle = color;
+    ctx.textAlign = 'left';
+    const words = text.split(' ');
+    let line = '';
+    let cy = y;
+    for (let w of words) {
+      const test = line ? line + ' ' + w : w;
+      if (ctx.measureText(test).width > maxW && line) {
+        ctx.fillText(line, x, cy);
+        line = w; cy += lineH;
+      } else { line = test; }
+    }
+    ctx.fillText(line, x, cy);
+    return cy;
+  }
+
+  // ── FONDO GENERAL
+  ctx.fillStyle = '#fdf6ec';
+  ctx.fillRect(0, 0, W, H);
+
+  // ── HEADER verde
+  roundRect(0, 0, W, 130, 0, null);
+  const grad = ctx.createLinearGradient(0, 0, W, 130);
+  grad.addColorStop(0, '#1a4731');
+  grad.addColorStop(1, '#2d6a4f');
+  ctx.fillStyle = grad; ctx.fill();
+
+  // uvas emoji grande
+  ctx.font = '44px serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🍇', W / 2, 52);
+
+  // nombre tienda
+  txt('La Tiendita de Otilia', W/2, 82, 'bold 17px serif', '#fdf6ec', 'center');
+  txt('ESTADO DE CUENTA', W/2, 102, '600 10px sans-serif', 'rgba(253,246,236,0.55)', 'center');
+
+  // fecha
+  txt('📅  ' + hoy, W/2, 122, '500 11px sans-serif', '#a8d8b0', 'center');
+
+  // ── TARJETA CLIENTE
+  let cy = 148;
+  roundRect(PAD - 8, cy, INNER + 16, 68, 12, '#ffffff');
+  // sombra simulada
+  ctx.shadowColor = 'rgba(0,0,0,0.07)';
+  ctx.shadowBlur  = 8;
+  roundRect(PAD - 8, cy, INNER + 16, 68, 12, '#ffffff');
+  ctx.shadowBlur  = 0;
+
+  // avatar círculo
+  const ax = PAD + 14, ay = cy + 34;
+  ctx.beginPath();
+  ctx.arc(ax, ay, 22, 0, Math.PI * 2);
+  ctx.fillStyle = deu > 0 ? '#e74c3c' : '#52b788';
+  ctx.fill();
+  txt(c.nombre.split(' ').slice(0,2).map(p=>p[0]).join('').toUpperCase(),
+      ax, ay + 7, 'bold 14px serif', '#ffffff', 'center');
+
+  // datos cliente
+  txt('🪪 Cliente', PAD + 46, cy + 22, '600 10px sans-serif', '#6b7280');
+  txt(c.nombre, PAD + 46, cy + 42, 'bold 15px sans-serif', '#1a1a1a');
+  if (c.telefono) txt('📱 ' + c.telefono, PAD + 46, cy + 58, '400 11px sans-serif', '#6b7280');
+
+  // deuda badge
+  const badgeX = W - PAD - 8;
+  ctx.textAlign = 'right';
+  ctx.font = '600 10px sans-serif'; ctx.fillStyle = '#6b7280';
+  ctx.fillText('Deuda actual', badgeX, cy + 22);
+  ctx.font = 'bold 18px sans-serif';
+  ctx.fillStyle = deu > 0 ? '#e07b3c' : '#2d6a4f';
+  ctx.fillText(S(deu), badgeX, cy + 44);
+
+  cy += 82;
+
+  // ── TÍTULO MOVIMIENTOS
+  dashedLine(cy);
+  cy += 14;
+  txt('🛒 Detalle de movimientos  🛍️', PAD, cy + 14, 'bold 12px sans-serif', '#1a4731');
+  cy += 28;
+  dashedLine(cy);
+  cy += 14;
+
+  // ── FILAS DE MOVIMIENTOS
+  if (c.movimientos.length === 0) {
+    txt('Sin movimientos registrados', W/2, cy + 16, '400 13px sans-serif', '#9ca3af', 'center');
+    cy += 32;
+  } else {
+    c.movimientos.forEach((m, i) => {
+      // fondo alterno
+      if (i % 2 === 0) roundRect(PAD - 6, cy - 4, INNER + 12, 44, 6, '#f9f3ea');
+
+      // punto color
+      ctx.beginPath();
+      ctx.arc(PAD + 5, cy + 14, 4, 0, Math.PI * 2);
+      ctx.fillStyle = m.tipo === 'pago' ? '#52b788' : '#e07b3c';
+      ctx.fill();
+
+      if (m.tipo === 'compra') {
+        // emoji + fecha/hora
+        txt('🏷️', PAD + 14, cy + 11, '12px serif', '#1a1a1a');
+        txt(m.fecha + '  ' + m.hora, PAD + 30, cy + 11, '400 10px sans-serif', '#6b7280');
+        // descripción
+        const desc = m.cantidad + ' × ' + m.producto;
+        ctx.font = '600 12px sans-serif'; ctx.fillStyle = '#1a1a1a'; ctx.textAlign = 'left';
+        // truncar si muy largo
+        let d2 = desc;
+        while (ctx.measureText(d2).width > INNER - 70 && d2.length > 4) d2 = d2.slice(0,-1);
+        if (d2 !== desc) d2 += '…';
+        ctx.fillText(d2, PAD + 14, cy + 28);
+        // monto derecha
+        txt(S(m.total), W - PAD - 4, cy + 28, 'bold 13px sans-serif', '#e07b3c', 'right');
+      } else {
+        txt('💚', PAD + 14, cy + 11, '12px serif', '#1a1a1a');
+        txt(m.fecha + '  ' + m.hora, PAD + 30, cy + 11, '400 10px sans-serif', '#6b7280');
+        const desc2 = 'Pago' + (m.nota ? ': ' + m.nota : '');
+        ctx.font = '600 12px sans-serif'; ctx.fillStyle = '#2d6a4f'; ctx.textAlign = 'left';
+        ctx.fillText(desc2, PAD + 14, cy + 28);
+        txt('-' + S(m.monto), W - PAD - 4, cy + 28, 'bold 13px sans-serif', '#52b788', 'right');
+      }
+      cy += 48;
+    });
+  }
+
+  // ── TOTAL
+  dashedLine(cy);
+  cy += 14;
+  roundRect(PAD - 8, cy, INNER + 16, 52, 10, deu > 0 ? '#fff3e8' : '#edf7f1');
+  txt('🏦 Total pendiente', PAD + 4, cy + 20, '600 12px sans-serif', '#6b7280');
+  txt(S(deu), W - PAD - 4, cy + 36, 'bold 22px sans-serif', deu > 0 ? '#e07b3c' : '#2d6a4f', 'right');
+  cy += 66;
+
+  // ── PIE
+  dashedLine(cy);
+  cy += 18;
+  txt('Gracias por su preferencia 🤓👍🏻', W/2, cy, '500 12px sans-serif', '#6b7280', 'center');
+  cy += 18;
+  txt('La Tiendita de Otilia 🍇', W/2, cy, '600 11px sans-serif', '#2d6a4f', 'center');
+
+  // ── MOSTRAR MODAL PREVIEW
+  const dataUrl = canvas.toDataURL('image/png');
+  mostrarModalTicket(dataUrl, c);
+}
+
+function mostrarModalTicket(dataUrl, c) {
+  const prev = document.getElementById('overlayTicket');
+  if (prev) prev.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'overlayTicket';
+  overlay.className = 'overlay show';
+  overlay.style.cssText = 'z-index:300; align-items:flex-end;';
+
+  const tel = c.telefono ? c.telefono.replace(/\D/g,'') : '';
+  const num = tel.startsWith('51') ? tel : '51' + tel;
+  const waUrl = 'https://wa.me/' + num;
+
+  overlay.innerHTML = `
+    <div class="modal" style="padding-bottom:44px">
+      <div class="modal-handle"></div>
+      <div class="modal-title" style="margin-bottom:14px">🎫 Ticket listo</div>
+      <div style="text-align:center;margin-bottom:16px;overflow-y:auto;max-height:40vh">
+        <img src="${dataUrl}" style="width:100%;max-width:340px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15)" />
+      </div>
+      <button id="btnEnviarTicket"
+        style="width:100%;background:linear-gradient(135deg,#25d366,#128c7e);color:white;border:none;
+               border-radius:16px;padding:16px;font-family:'DM Sans',sans-serif;font-size:15px;
+               font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;
+               gap:10px;box-shadow:0 4px 16px rgba(18,140,126,0.35);margin-bottom:10px">
+        <span style="font-size:22px">💬</span>
+        <span>Enviar Ticket a ${c.nombre.split(' ')[0]} por WhatsApp</span>
+      </button>
+      <button class="btn-secondary" onclick="document.getElementById('overlayTicket').remove()">Cerrar</button>
+    </div>`;
+
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+
+  document.getElementById('btnEnviarTicket').addEventListener('click', () => {
+    // PASO 1 — descargar imagen
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = 'ticket-' + c.nombre.replace(/\s+/g,'-').toLowerCase() + '.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    // PASO 2 — mostrar pantalla de confirmación con enlace a WhatsApp
+    setTimeout(() => mostrarPasoWhatsApp(waUrl, c), 800);
+  });
+}
+
+function mostrarPasoWhatsApp(waUrl, c) {
+  // Reemplazar contenido del modal con la pantalla de confirmación
+  const modal = document.querySelector('#overlayTicket .modal');
+  modal.innerHTML = `
+    <div class="modal-handle"></div>
+    <div style="text-align:center;padding:10px 0 20px">
+      <div style="font-size:52px;margin-bottom:10px">✅</div>
+      <div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--verde);margin-bottom:6px">
+        ¡Ticket descargado!
+      </div>
+      <div style="font-size:13px;color:var(--gris);line-height:1.7">
+        El ticket está guardado en tu galería.<br>
+        Ahora abre WhatsApp y adjunta la imagen.
+      </div>
+    </div>
+
+    <div style="background:#f0fdf4;border-radius:14px;padding:14px 16px;margin-bottom:16px;font-size:12px;color:#2d6a4f;line-height:1.8">
+      <strong>Pasos:</strong><br>
+      1️⃣ Toca el botón de abajo para abrir el chat<br>
+      2️⃣ Toca el 📎 clip dentro de WhatsApp<br>
+      3️⃣ Selecciona <strong>Galería</strong> y elige el ticket<br>
+      4️⃣ Envía 🚀
+    </div>
+
+    ${c.telefono ? `
+    <a href="${waUrl}" target="_blank" style="text-decoration:none">
+      <div style="width:100%;background:linear-gradient(135deg,#25d366,#128c7e);color:white;
+                  border-radius:16px;padding:16px;font-family:'DM Sans',sans-serif;font-size:15px;
+                  font-weight:700;display:flex;align-items:center;justify-content:center;
+                  gap:10px;box-shadow:0 4px 16px rgba(18,140,126,0.35);margin-bottom:10px;cursor:pointer">
+        <span style="font-size:22px">💬</span>
+        <span>Abrir chat de ${c.nombre.split(' ')[0]}</span>
+      </div>
+    </a>` : `
+    <div style="text-align:center;font-size:12px;color:var(--rojo);padding:10px 0">
+      ⚠️ Sin teléfono — abre WhatsApp manualmente
+    </div>`}
+
+    <button class="btn-secondary" onclick="document.getElementById('overlayTicket').remove()">Cerrar</button>
+  `;
+}
+
+// ============================================================
+//  ELIMINAR CLIENTE
+// ============================================================
+function pedirEliminar(id)   { clienteEliminarId=id; document.getElementById('confirmEliminar').classList.add('show'); }
+function cerrarConfirm()     { document.getElementById('confirmEliminar').classList.remove('show'); clienteEliminarId=null; }
+function confirmarEliminar() {
+  clientes = clientes.filter(c=>c.id!==clienteEliminarId);
+  save(); cerrarConfirm(); toast('🗑️ Cliente eliminado'); render();
+}
+
+// ============================================================
+//  HISTORIAL COMPLETO
+// ============================================================
+function verTodo(id) {
+  const c = clientes.find(x=>x.id===id);
+  const d = deuda(c);
+  const movs = [...c.movimientos].reverse();
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay show';
+  overlay.style.zIndex = '250';
+  let html = `<div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">${c.nombre}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;background:var(--crema);border-radius:12px;padding:11px 13px">
+      <span style="font-size:12px;color:var(--gris)">Deuda total</span>
+      <span style="font-size:19px;font-weight:700;color:var(--naranja)">${S(d)}</span>
+    </div>
+    <div class="movimientos">
+      <div class="mov-title">Historial completo <span class="num-movs">${movs.length}</span></div>`;
+  if (movs.length===0) {
+    html += '<div class="mov-empty">Sin movimientos</div>';
+  } else {
+    movs.forEach(m => {
+      html += `<div class="mov-item">
+        <div class="mov-dot ${m.tipo==='pago'?'pago':''}"></div>
+        <div style="flex:1">
+          <div class="mov-descripcion">${m.tipo==='compra'
+            ? m.cantidad+' × '+m.producto+' ('+S(m.precioUnit)+' c/u)'
+            : 'Pago'+(m.nota?': '+m.nota:'')}</div>
+          <div class="mov-fecha">📅 ${m.fecha} · ${m.hora}</div>
+        </div>
+        <div class="mov-monto ${m.tipo==='pago'?'pago':''}">${m.tipo==='compra'?'+':'-'}${S(m.tipo==='compra'?m.total:m.monto)}</div>
+      </div>`;
+    });
+  }
+  html += `</div><button class="btn-secondary" onclick="this.closest('.overlay').remove()" style="margin-top:14px">Cerrar</button></div>`;
+  overlay.innerHTML = html;
+  overlay.addEventListener('click', e=>{ if(e.target===overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+render();
+</script>
+</body>
+</html>
